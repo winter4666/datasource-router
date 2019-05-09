@@ -1,0 +1,2 @@
+# datasource-router
+基于spring的AbstractRoutingDataSource，封装了一些工具类和注解，使多数据源的切换变得更加简单自然
