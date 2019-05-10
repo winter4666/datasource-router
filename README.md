@@ -15,11 +15,11 @@
 <bean id="dataSource" class="com.github.winter4666.datasourcerouter.RoutingDataSource">
     <property name="targetDataSources">
         <map key-type="java.lang.String">
+            <entry key="db0" value-ref="db0DataSource"/>
             <entry key="db1" value-ref="db1DataSource"/>
-            <entry key="db2" value-ref="db2DataSource"/>
         </map>
     </property>
-    <property name="defaultTargetDataSource" ref="db1"/>
+    <property name="defaultTargetDataSource" ref="db0"/>
 </bean>
 ```
 
@@ -42,7 +42,7 @@
 
 在dao层的类或方法上，加上`@DataSource`注解，方法执行访问数据库时，将使用`@DataSource`注解所指定的数据源。
 ```java
-@DataSource("db2")
+@DataSource("db1")
 @Repository
 public class UserDao {
 	
@@ -56,7 +56,7 @@ public class UserDao {
 @Repository
 public class UserDao {
 	
-	@DataSource("db2")
+	@DataSource("db1")
 	public User getUserById(Long id) {
 		//通过用户id查找用户
 	}
@@ -65,7 +65,7 @@ public class UserDao {
 ```
 在service层的类或方法上，加上`@DSRTransactional`注解，使用多数据源版本的声明式事务
 ```java
-@DSRTransactional("db2")
+@DSRTransactional("db1")
 @Service
 public class UserServiceImpl implements UserService{
 	
@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService{
 @Service
 public class UserServiceImpl implements UserService{
 	
-	@DSRTransactional("db2")
+	@DSRTransactional("db1")
 	public void transfer(long fromUserId,long toUserId,int amount) {
 		//转账
 	}
@@ -96,7 +96,7 @@ public class UserDao {
 	private DataSourceRouter dataSourceRouter;
 	
 	public User getUserById(Long id) {
-		return dataSourceRouter.accessDb("db2", new DataSourceCallback<User>() {
+		return dataSourceRouter.accessDb("db1", new DataSourceCallback<User>() {
 		
 			public User doWithDataSource() {
 				//通过用户id查找用户
@@ -114,13 +114,53 @@ public class UserServiceImpl implements UserService{
 	private DSRTransactionTemplate transactionTemplate;
 	
 	public void transfer(long fromUserId,long toUserId,int amount) {
-		transactionTemplate.execute("db2", new TransactionCallbackWithoutResult() {
+		transactionTemplate.execute("db1", new TransactionCallbackWithoutResult() {
 			
 			@Override
 			protected void doInTransactionWithoutResult(TransactionStatus status) {
 				//转账
 			}
 		});
+	}
+
+}
+```
+
+7. 在一些场景下，数据源的确定是动态的。譬如，对用户id取模2，值为0的用户记录在db0，值为1的用户记录在db1。这种情况下，可以利用`LookupKeyBuilder`接口和[SpEL表达式](https://docs.spring.io/spring/docs/3.0.x/reference/expressions.html)实现数据源的动态确定。
+```java
+public class UserDbLookupKeyBuilder implements LookupKeyBuilder {
+	
+	private static final int USER_ID_MOD = 2;
+
+	@Override
+	public String getLookupKey(Object param) {
+		long userId;
+		if(param instanceof Long) {
+			userId = (Long)param;
+		} else {
+			userId = Long.valueOf(param.toString());
+		}
+		return "db" + userId%USER_ID_MOD;
+	}
+
+	@Override
+	public List<String> getAllLookupKeys() {
+    	List<String> list = new ArrayList<>();
+    	for(int i = 0;i < USER_ID_MOD;i++) {
+    		list.add("db" + i);
+    	}
+    	return list;
+	}
+
+}
+```
+```java
+@Repository
+public class UserDao {
+	
+	@DataSource(param="#a0",builderClass = UserDbLookupKeyBuilder.class)
+	public User getUserById(Long id) {
+		//通过用户id查找用户
 	}
 
 }
