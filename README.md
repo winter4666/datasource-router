@@ -2,7 +2,7 @@
 基于spring的`AbstractRoutingDataSource`，封装了一些工具类和注解，使多数据源的切换变得更加简单自然
 
 ## 简介
-代码基本实现思路来源于文章[Dynamic DataSource Routing](https://spring.io/blog/2007/01/23/dynamic-datasource-routing/)，再此基础之上，利用spring的aop特性，简化了切换多数据源的方式。
+代码基本实现思路来源于文章[Dynamic DataSource Routing](https://spring.io/blog/2007/01/23/dynamic-datasource-routing/)，在此基础之上，利用spring的aop特性，简化了切换多数据源的方式。
 
 ## 使用方法
 1. 修改spring配置，启用`@AspectJ`支持
