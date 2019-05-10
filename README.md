@@ -126,7 +126,7 @@ public class UserServiceImpl implements UserService{
 }
 ```
 
-7. 在一些场景下，数据源的确定是动态的。譬如，对用户id取模2，值为0的用户记录在db0，值为1的用户记录在db1。这种情况下，可以利用`LookupKeyBuilder`接口和[SpEL表达式](https://docs.spring.io/spring/docs/3.0.x/reference/expressions.html)实现数据源的动态确定。
+7. 在一些场景下，数据源的确定是动态的。譬如，对用户id取模2，值为0的用户记录在db0，值为1的用户记录在db1。这种情况下，可以利用`LookupKeyBuilder`接口和[SpEL](https://docs.spring.io/spring/docs/3.0.x/reference/expressions.html)实现数据源的动态确定。
 ```java
 public class UserDbLookupKeyBuilder implements LookupKeyBuilder {
 	
