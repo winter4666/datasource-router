@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService{
 }
 ```
 
-6. 也可以直接使用`DataSourceRouter`类和`DSRTransactionTemplate`类，通过编程的方式切换数据源，在某些场景下，这样比使用注解灵活。
+6. 也可以直接使用`DataSourceRouter`类和`DSRTransactionTemplate`类，通过编码的方式切换数据源，在某些场景下，这样比使用注解灵活。
 ```java
 @Repository
 public class UserDao {
