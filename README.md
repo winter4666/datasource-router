@@ -38,7 +38,7 @@
 </bean>
 ```
 
-5. 使用注解切换数据源
+4. 使用注解切换数据源
 
 在dao层的类或方法上，加上`@DataSource`注解，方法执行访问数据库时，将使用`@DataSource`注解所指定的数据源。
 ```java
@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService{
 }
 ```
 
-6. 也可以直接使用`DataSourceRouter`类和`DSRTransactionTemplate`类，通过编码的方式切换数据源，在某些场景下，这样比使用注解灵活。
+5. 也可以直接使用`DataSourceRouter`类和`DSRTransactionTemplate`类，通过编码的方式切换数据源，在某些场景下，这样比使用注解灵活。
 ```java
 @Repository
 public class UserDao {
@@ -126,7 +126,7 @@ public class UserServiceImpl implements UserService{
 }
 ```
 
-7. 在一些场景下，数据源的确定是动态的。譬如，对用户id取模2，值为0的用户记录在db0，值为1的用户记录在db1。这种情况下，可以利用`LookupKeyBuilder`接口和[SpEL](https://docs.spring.io/spring/docs/3.0.x/reference/expressions.html)实现数据源的动态确定。
+6. 在一些场景下，数据源的确定是动态的。譬如，对用户id取模2，值为0的用户记录在db0，值为1的用户记录在db1。这种情况下，可以利用`LookupKeyBuilder`接口和[SpEL](https://docs.spring.io/spring/docs/3.0.x/reference/expressions.html)实现数据源的动态确定。
 ```java
 public class UserDbLookupKeyBuilder implements LookupKeyBuilder {
 	
