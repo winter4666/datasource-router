@@ -53,8 +53,8 @@ public class DSRAspect  {
 				public Object doWithDataSource() {
 					try {
 						return pjp.proceed();
-					} catch (Throwable e) {
-						throw new RuntimeException("ProceedingJoinPoint proceed error",e);
+					} catch (Throwable t) {
+						throw new RuntimeException(t);
 					}
 				}
 			});
@@ -75,8 +75,8 @@ public class DSRAspect  {
 					public Object doWithDataSource() {
 						try {
 							return pjp.proceed();
-						} catch (Throwable e) {
-							throw new RuntimeException("ProceedingJoinPoint proceed error",e);
+						} catch (Throwable t) {
+							throw new RuntimeException(t);
 						}
 					}
 				});
@@ -88,8 +88,8 @@ public class DSRAspect  {
 					public Object doWithDataSource() {
 						try {
 							return pjp.proceed();
-						} catch (Throwable e) {
-							throw new RuntimeException("ProceedingJoinPoint proceed error",e);
+						} catch (Throwable t) {
+							throw new RuntimeException(t);
 						}
 					}
 				});
@@ -114,8 +114,8 @@ public class DSRAspect  {
 				public Object doInTransaction(TransactionStatus status) {
 					try {
 						return pjp.proceed();
-					} catch (Throwable e) {
-						throw new RuntimeException("ProceedingJoinPoint proceed error",e);
+					} catch (Throwable t) {
+						throw new RuntimeException(t);
 					}
 				}
 			});
@@ -135,8 +135,8 @@ public class DSRAspect  {
 					public Object doInTransaction(TransactionStatus status) {
 						try {
 							return pjp.proceed();
-						} catch (Throwable e) {
-							throw new RuntimeException("ProceedingJoinPoint proceed error",e);
+						} catch (Throwable t) {
+							throw new RuntimeException(t);
 						}
 					}
 				});
