@@ -53,6 +53,8 @@ public class DSRAspect  {
 				public Object doWithDataSource() {
 					try {
 						return pjp.proceed();
+					} catch(RuntimeException e) {
+						throw e;
 					} catch (Throwable t) {
 						throw new RuntimeException(t);
 					}
@@ -75,6 +77,8 @@ public class DSRAspect  {
 					public Object doWithDataSource() {
 						try {
 							return pjp.proceed();
+						} catch(RuntimeException e) {
+							throw e;
 						} catch (Throwable t) {
 							throw new RuntimeException(t);
 						}
@@ -88,6 +92,8 @@ public class DSRAspect  {
 					public Object doWithDataSource() {
 						try {
 							return pjp.proceed();
+						} catch(RuntimeException e) {
+							throw e;
 						} catch (Throwable t) {
 							throw new RuntimeException(t);
 						}
@@ -114,6 +120,8 @@ public class DSRAspect  {
 				public Object doInTransaction(TransactionStatus status) {
 					try {
 						return pjp.proceed();
+					} catch(RuntimeException e) {
+						throw e;
 					} catch (Throwable t) {
 						throw new RuntimeException(t);
 					}
@@ -135,6 +143,8 @@ public class DSRAspect  {
 					public Object doInTransaction(TransactionStatus status) {
 						try {
 							return pjp.proceed();
+						} catch(RuntimeException e) {
+							throw e;
 						} catch (Throwable t) {
 							throw new RuntimeException(t);
 						}
